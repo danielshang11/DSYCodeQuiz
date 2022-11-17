@@ -39,10 +39,6 @@ var endEl = document.getElementById("qz-end")
 var creditEl = document.getElementById("credit") 
 
 
-// time = count
-
-var timeInterval;
-
 
 
 document.querySelector(".start-button").addEventListener("click", function () {
@@ -61,9 +57,11 @@ function quizBegin(){
   setNextQuestion();
 }
 
-var count = questions.length * 10;
+var count = questions.length * 5;
+var timeInterval;
 
 function timeCount() {
+  
   timeInterval = setInterval(function(){
     count--;
     if (count <= 0) {
@@ -144,14 +142,14 @@ function questionAnswer(event){
 
 function quizEnd() {
  
-  clearInterval(timerVar);
+  clearInterval(timeInterval);
 
   var endScreenEl = document.getElementById("qz-end");
   endScreenEl.removeAttribute("class");
 
 
   var finalScoreEl = document.getElementById("resultscore");
-  finalScoreEl.textContent = time;
+  finalScoreEl.textContent = count;
 
   
   queryEl.style.display = "none";
@@ -167,7 +165,7 @@ function saveHighscore() {
       JSON.parse(window.localStorage.getItem("highscores")) || [];
 
     var newScore = {
-      score: time,
+      score: count,
       initials: initials,
     };
 
