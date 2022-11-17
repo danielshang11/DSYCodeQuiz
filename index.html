@@ -18,23 +18,25 @@
       </div>    
     </navbar>
     <main>
-      <s-page class="beginpage" id="qz-start">
+      <s-page id="qz-start">
             <h1>Ready for the Quiz?</h1>
             <p>Let's see how much you've learned from the course and how familiar with the code.</p>
             <button class="start-button" id="start-btn">Start</button>
       </s-page>
-      <q-page class="quizpage" id = "query">
+      <q-page  id = "query">
         <h2 id="query-title"></h2>
         <div id="answerselections"></div>
 
       </q-page>
-      <e-page class="resultpage" id = "qz-result">
+      <e-page  id = "qz-end">
         <h2>Quiz is Over</h2>
         <p>
           Check your score:
-          <span id=""></span>
+          <span id="resultscore"></span>
         </p>
       </e-page>
+      
+      <div id="credit" class="credit"></div>
 
 
     </main>

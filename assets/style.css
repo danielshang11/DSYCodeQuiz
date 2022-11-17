@@ -59,3 +59,40 @@ button {
     transition-timing-function: linear;
     margin-top: 0.6em;
   }
+
+.start {
+   text-align: center;
+}
+
+main{
+  display: flex;
+}
+
+.hide {
+  display: none;
+}
+
+a-button{
+    background: pink;
+    border-radius: 8px;
+    color: #13293d;
+    font-size: 2em;
+    letter-spacing: 0.21px;
+    line-height: 16px;
+    max-width: 150px;
+    padding: 20px 52px;
+    text-align: center;
+    transition-duration: 0.15s;
+    transition-property: background-color;
+    transition-timing-function: linear;
+    margin: 2px 5px 2px 5px;
+}
+
+h2 {
+    margin: 200px;
+}
+
+.scorebar {
+    display: flex;
+    flex-wrap: wrap;
+}
