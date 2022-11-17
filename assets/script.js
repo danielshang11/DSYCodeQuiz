@@ -1,26 +1,26 @@
 var questions = [
   {
-    title: 'which word contains letter a',
+    question: 'which word contains letter a',
     answers: ['apple', 'bed', 'cow', 'duck'],
     correct: 'apple',
   },
   {
-    title: 'which word contains letter b',
+    question: 'which word contains letter b',
     answers: ['apple', 'bed', 'cow', 'duck'],
     correct: 'bed',
   },
   {
-    title: 'which word contains letter o',
+    question: 'which word contains letter o',
     answers: ['apple', 'bed', 'cow', 'duck'],
     correct: 'cow',
   },
   {
-    title: 'which word contains letter u',
+    question: 'which word contains letter u',
     answers: ['apple', 'bed', 'cow', 'duck'],
     correct: 'duck',
   },
   {
-    title: 'which word contains letter k',
+    question: 'which word contains letter k',
     answers: ['apple', 'bed', 'cow', 'duck'],
     correct: 'duck',
   },
@@ -33,71 +33,98 @@ var timerEl = document.getElementById("timecount")
 var queryEl = document.getElementById("query")
 var startBtn = document.getElementById("start-btn")
 var creditEl = document.getElementById("credit")
-var answerEl = document.getElementById("answerselections")
-var startEl = document.getElementById("qz-start")
+var answersEl = document.getElementById("answerselections")
+
 var endEl = document.getElementById("qz-end")
 var creditEl = document.getElementById("credit") 
 
 
+// time = count
 
-startBtn.onclick = quizBegin;
-var time = 40;
-var timeVar;
-
+var timeInterval;
 
 
 
+document.querySelector(".start-button").addEventListener("click", function () {
+  timeCount();
+  quizBegin();
+});
 
-
+// startBtn.addEventListener('click',quizBegin)
 
 function quizBegin(){
-  
-  startEl.style.display = "none";
-  queryEl.style.display="block";
-  endEl.style.display = "none";
-  creditEl.style.display = "none";
+  var startEl = document.getElementById("qz-start")
+  startEl.setAttribute("class","hide");
+  queryEl.removeAttribute("class");
+  timerEl.textContent = count;
 
-  timeVar = setInterval(
-    function timeCount() {
-      time--;
-      timerEl.textContent = time;
-      if (time <= 0) {quizEnd();}
-    },1000);
-  timerEl.textContent = time;
   setNextQuestion();
 }
 
-let questionNowIndex = 0
+var count = questions.length * 10;
+
+function timeCount() {
+  timeInterval = setInterval(function(){
+    count--;
+    if (count <= 0) {
+      quizEnd();
+      if(count === 0){
+        clearInterval(timeInterval)
+      }
+    }
+    timerEl.textContent = count;
+  },1000);
+}
+
+var correctAnswer
+var corrects = localStorage.getItem("corrects") || 0;
+var incorrects = localStorage.getItem("incorrects") || 0;
+var answerResult = document.querySelector(".answer-result");
+
+// function finishGame(){
+//   if(correctAnswer){
+//     corrects++;
+//     localStorage.setItem("corrects",corrects);
+//     answerResult.textContent = "You answer it right!";
+//   } else{
+//     incorrects++;
+//     count= count-10;
+//     localStorage.setItem("incorrects",incorrects);
+//     answerResult.textContent = "You answer it wrong!";
+//   }
+// }
 
 
+var questionNowIndex = 0;
 
 function setNextQuestion(){
   var questionNow = questions[questionNowIndex];
-  var titleEl = document.getElementById("query-title");
-  titleEl.textContent = questionNow.title;
-  answerEl.innerHTML = " ";
+  var questionEl = document.getElementById("query-title");
+  questionEl.textContent = questionNow.question;
+  answersEl.innerHTML = " ";
   for (var i=0; i < questionNow.answers.length ; i++ ){
     var answer = questionNow.answers[i];
-    var answerNode = document.createElement(a-button);
-    answerNode.setAttribute("class", "answer");
+    var answerNode = document.createElement("button");
+    answerNode.setAttribute("class", "a-button");
     answerNode.setAttribute("value", answer);
 
     answerNode.textContent = i + 1 + ".  "+ answer;
 
-    answerEl.appendChild(answerNode);
+    answersEl.appendChild(answerNode);
 
   }
 
 }
 
-answerEl.onclick = questionAnswer
+answersEl.onclick = questionAnswer;
 
 function questionAnswer(event){
-  var choiceEl = event.target
-  if(!choiceEl.matches(".answer")){return};
-  if(choiceEl.valve !== questions[questionNowIndex].correct){
-    time = time -5;
-    if(time < 0){ time =0;}
+  var selectionEl = event.target
+  if(!selectionEl.matches(".answer")){
+    return};
+  if(selectionEl.valve !== questions[questionNowIndex].correct){
+    count = count -5;
+    if(count < 0){ count =0;}
     timerEl.textContent = time;
     creditEl.textContent = "oh no incorrect answer!";
   } else {
@@ -107,17 +134,13 @@ function questionAnswer(event){
   setTimeout(function () {
     creditEl.style.display="none";
   }, 1000);
-
-}
-
-questionNowIndex++;
-
-
-  if (time <= 0 || questionNowIndex === questions.length) {
+  questionNowIndex++;
+  if (count <= 0 || questionNowIndex === questions.length) {
     quizEnd();
   } else {
     quizBegin();
   }
+}
 
 function quizEnd() {
  
@@ -136,42 +159,35 @@ function quizEnd() {
 
 
 function saveHighscore() {
-  // get value of input box
+ 
   var initials = initialsEl.value.trim();
 
-  // make sure value wasn't empty
   if (initials !== '') {
-    // get saved scores from localstorage, or if not any, set to empty array
     var highscores =
       JSON.parse(window.localStorage.getItem("highscores")) || [];
 
-    // format new score object for current user
     var newScore = {
       score: time,
       initials: initials,
     };
 
-    // save to localstorage
     highscores.push(newScore);
     window.localStorage.setItem("highscores", JSON.stringify(highscores));
 
-    // redirect to next page
     window.location.href = 'highscores.html';
   }
 }
 
 function checkForEnter(event) {
-  // "13" represents the enter key
   if (event.key === "Enter") {
     saveHighscore();
   }
 }
+var submitBtn = document.getElementById('submit');
 
-// user clicks button to submit initials
 submitBtn.onclick = saveHighscore;
 
-
-
+var initialsEl = document.getElementById('initials');
 
 
 initialsEl.onkeyup = checkForEnter;
