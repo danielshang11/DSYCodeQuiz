@@ -9,21 +9,32 @@
   </head>
   <body>
     <header>
-        <div class="score">Score: </div>
-        <div class="timer">Timer: </div>
+      <h1>Quiz of Code</h1>    
     </header>
+    <navbar class="scorebar" id="highscore">
+      <div class="timer">Timer: <span id="timecount"> 0</span></div> 
+      <div>
+        <a href="#">check the highscore history</a>
+      </div>    
+    </navbar>
     <main>
-        <s-page>
+      <s-page class="beginpage" id="qz-start">
             <h1>Ready for the Quiz?</h1>
             <p>Let's see how much you've learned from the course and how familiar with the code.</p>
+            <button class="start-button" id="start-btn">Start</button>
+      </s-page>
+      <q-page class="quizpage" id = "query">
+        <h2 id="query-title"></h2>
+        <div id="answerselections"></div>
 
-        </s-page>
-        <q-page>
-
-        </q-page>
-        <e-page>
-
-        </e-page>
+      </q-page>
+      <e-page class="resultpage" id = "qz-result">
+        <h2>Quiz is Over</h2>
+        <p>
+          Check your score:
+          <span id=""></span>
+        </p>
+      </e-page>
 
 
     </main>
