@@ -40,13 +40,13 @@ var creditEl = document.getElementById("credit")
 
 
 
+if(startBtn != null){
+  startBtn.addEventListener("click", function () {
+    timeCount();
+    quizBegin();
+  });
+}
 
-document.querySelector(".start-button").addEventListener("click", function () {
-  timeCount();
-  quizBegin();
-});
-
-// startBtn.addEventListener('click',quizBegin)
 
 function quizBegin(){
   var startEl = document.getElementById("qz-start")
@@ -57,7 +57,7 @@ function quizBegin(){
   setNextQuestion();
 }
 
-var count = questions.length * 5;
+var count = questions.length * 10;
 var timeInterval;
 
 function timeCount() {
@@ -74,23 +74,6 @@ function timeCount() {
   },1000);
 }
 
-var correctAnswer
-var corrects = localStorage.getItem("corrects") || 0;
-var incorrects = localStorage.getItem("incorrects") || 0;
-var answerResult = document.querySelector(".answer-result");
-
-// function finishGame(){
-//   if(correctAnswer){
-//     corrects++;
-//     localStorage.setItem("corrects",corrects);
-//     answerResult.textContent = "You answer it right!";
-//   } else{
-//     incorrects++;
-//     count= count-10;
-//     localStorage.setItem("incorrects",incorrects);
-//     answerResult.textContent = "You answer it wrong!";
-//   }
-// }
 
 
 var questionNowIndex = 0;
@@ -106,32 +89,32 @@ function setNextQuestion(){
     answerNode.setAttribute("class", "a-button");
     answerNode.setAttribute("value", answer);
 
-    answerNode.textContent = i + 1 + ".  "+ answer;
+    answerNode.textContent = i + 1 + ". "+ answer;
 
     answersEl.appendChild(answerNode);
+   
 
   }
-
+// console.log(questionNow)
 }
 
-answersEl.onclick = questionAnswer;
+if (answersEl != null){
+  answersEl.addEventListener("click",questionAnswer);
+}
 
 function questionAnswer(event){
-  var selectionEl = event.target
-  if(!selectionEl.matches(".answer")){
-    return};
-  if(selectionEl.valve !== questions[questionNowIndex].correct){
+  var selectionEl = event.target.value
+  if(selectionEl != questions[questionNowIndex].correct){
     count = count -5;
     if(count < 0){ count =0;}
-    timerEl.textContent = time;
+    timerEl.textContent = count;
     creditEl.textContent = "oh no incorrect answer!";
+    // console.log(creditEl);
   } else {
     creditEl.textContent = "Yes! you got it!";
+    // console.log(creditEl);
   }
-  creditEl.setAttribute("class", "credit");
-  setTimeout(function () {
-    creditEl.style.display="none";
-  }, 1000);
+ 
   questionNowIndex++;
   if (count <= 0 || questionNowIndex === questions.length) {
     quizEnd();
@@ -154,41 +137,4 @@ function quizEnd() {
   
   queryEl.style.display = "none";
 }
-
-
-function saveHighscore() {
- 
-  var initials = initialsEl.value.trim();
-
-  if (initials !== '') {
-    var highscores =
-      JSON.parse(window.localStorage.getItem("highscores")) || [];
-
-    var newScore = {
-      score: count,
-      initials: initials,
-    };
-
-    highscores.push(newScore);
-    window.localStorage.setItem("highscores", JSON.stringify(highscores));
-
-    window.location.href = 'highscores.html';
-  }
-}
-
-function checkForEnter(event) {
-  if (event.key === "Enter") {
-    saveHighscore();
-  }
-}
-var submitBtn = document.getElementById('submit');
-
-submitBtn.onclick = saveHighscore;
-
-var initialsEl = document.getElementById('initials');
-
-
-initialsEl.onkeyup = checkForEnter;
-
-
 

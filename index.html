@@ -14,7 +14,7 @@
     <navbar class="scorebar" id="highscore">
       <div class="timer">Timer: <span id="timecount"> 0</span></div> 
       <div>
-        <a href="#">check the highscore history</a>
+        <a href="./assets/highscore.html">check the highscore history</a>
       </div>    
     </navbar>
     <main>
@@ -28,7 +28,8 @@
         <div id="answerselections">
           
         </div>
-        <div class="answer-result"></div>
+        <div class="answer-result" id="credit">
+        </div>
       </q-page>
       <button id="next-btn" class="hide">Next</button>
       <e-page  id = "qz-end" class="hide">
@@ -38,20 +39,15 @@
           <span id="resultscore"></span>
         </p>
         <p>
-          Enter initials: <input type="text" id="initials" max="3" />
+          Enter initials: <input type="text" id="initials"/>
           <button id="submit">Submit</button>
         </p>
 
       </e-page>
-      
-      <div id="credit" class="credit hide">
-        <div> Score : </div>
-
-      </div>
-
-
+    
     </main>
     
     <script src="./assets/script.js"></script>
+    <script src="./assets/highscore.js"></script>
   </body>
 </html>
